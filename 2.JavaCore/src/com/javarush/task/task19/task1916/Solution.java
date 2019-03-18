@@ -13,10 +13,10 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//        String name1 = reader.readLine();
-//        String name2 = reader.readLine();
-        String name1 = "d:\\7.txt";
-        String name2 = "d:\\8.txt";
+        String name1 = reader.readLine();
+        String name2 = reader.readLine();
+//        String name1 = "d:\\7.txt";
+//        String name2 = "d:\\8.txt";
         reader.close();
 
         BufferedReader file1 = new BufferedReader(new FileReader(name1));
@@ -48,18 +48,35 @@ public class Solution {
                 break;
             }
 
+            if (first >= fileString1.size()) {
+                lines.add(new LineItem(Type.ADDED, fileString2.get(second)));
+                first++;
+                second++;
+                continue;
+            }
+
+            if (second >= fileString2.size()) {
+                lines.add(new LineItem(Type.REMOVED, fileString1.get(first)));
+                first++;
+                second++;
+                continue;
+            }
+
             if (fileString1.get(first).equals(fileString2.get(second))) {
                 lines.add(new LineItem(Type.SAME, fileString1.get(first)));
                 first++;
                 second++;
+                continue;
             }
 
-            first++;
-
-            if (first < fileString1.size() && fileString1.get(first).equals(fileString2.get(second))) {
+            if (++first < fileString1.size() && fileString1.get(first).equals(fileString2.get(second))) {
                 lines.add(new LineItem(Type.REMOVED, fileString1.get(first - 1)));
                 lines.add(new LineItem(Type.SAME, fileString1.get(first)));
                 first++;
+                second++;
+            } else {
+                lines.add(new LineItem(Type.ADDED, fileString2.get(second)));
+                lines.add(new LineItem(Type.SAME, fileString2.get(++second)));
                 second++;
             }
         }
