@@ -12,7 +12,7 @@ public class Solution {
     public static void main(String[] args) {
         //исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("your_file_name", null);
+            File your_file_name = File.createTempFile("d:\\11.txt", null);
             OutputStream outputStream = new FileOutputStream(your_file_name);
             InputStream inputStream = new FileInputStream(your_file_name);
 
@@ -24,6 +24,7 @@ public class Solution {
             somePerson.load(inputStream);
             inputStream.close();
             //check here that ivanov equals to somePerson - проверьте тут, что ivanov и somePerson равны
+            System.out.println("Check equals: " + ivanov.equals(somePerson));
 
         } catch (IOException e) {
             //e.printStackTrace();
@@ -68,10 +69,34 @@ public class Solution {
 
         public void save(OutputStream outputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            outputStream.write(name.getBytes());
+            if (assets != null) {
+                for (Asset a : assets) {
+                    outputStream.write(("\n" + a.getName()).getBytes());
+                    outputStream.write(("\n" + a.getPrice()).getBytes());
+                }
+            }
         }
 
         public void load(InputStream inputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            ArrayList<String> list = new ArrayList<>();
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                list.add(line);
+            }
+            reader.close();
+            if (list != null) {
+                name = list.get(0);
+
+                for (int i = 1; i < list.size(); i++) {
+                    assets.add(new Asset(list.get(i), (double)Double.parseDouble(list.get(++i))));
+                }
+            }
         }
     }
 }
