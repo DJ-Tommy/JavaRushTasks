@@ -35,7 +35,8 @@ public class Solution implements Serializable, Runnable{
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
+        Thread t = new Thread(this);
+        t.start();
     }
 
     public static void main(String[] args) {
