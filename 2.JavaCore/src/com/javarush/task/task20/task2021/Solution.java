@@ -7,6 +7,19 @@ import java.io.*;
 */
 public class Solution implements Serializable {
     public static class SubSolution extends Solution {
+
+        public SubSolution() throws NotSerializableException {
+            throw new NotSerializableException();
+        }
+
+//        private void writeObject(ObjectOutputStream stream) throws IOException {
+//            throw new NotSerializableException();
+//        }
+//
+//        private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+//            throw new NotSerializableException();
+//        }
+
     }
 
     public static void main(String[] args) {
