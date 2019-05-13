@@ -1,6 +1,8 @@
 package com.javarush.task.task20.task2025;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /*
 Алгоритмы-числа
@@ -28,7 +30,31 @@ public class Solution {
     }
 
     public static long[] getNumbers(long N) {
+        ArrayList<Long> result = new ArrayList<>();
         if (N < 1) { return null; }
+        if (N > 0) {
+            int k = 10;
+            if (N < 10) {
+                k = (int) N;
+            }
+            for (int i = 1; i < k; i++) {
+                result.add((long)i);
+            }
+        }
+
+        ArrayList<Integer> maxList = toArrayListFromNumber(N);
+        maxList.sort(Comparator.naturalOrder());
+        int maxListLength = maxList.size();
+        ArrayList<Integer> matrix = new ArrayList<>();
+        matrix.add(0);
+        matrix.add(0);
+
+        while (true) {
+
+            break;
+        }
+
+
 
         for (long i = 1; i < N; i++) {
             ArrayList<Integer> num = toArrayListFromNumber(i);
@@ -46,10 +72,7 @@ public class Solution {
             }
         }
 
-
-
-        long[] result = null;
-        return result;
+        return null;
     }
 
     public static boolean isTrueNumber(ArrayList<Integer> arrayList) {
@@ -90,7 +113,39 @@ public class Solution {
         return res;
     }
 
+    public static void generateMatrixOfValue () {
+        byte numberOfDigit = 5;
+        byte[] matrixMassive = new byte[numberOfDigit];
+        for (int i = numberOfDigit - 1; i >= 0; i--) {
+            matrixMassive[i] = 0;
+        }
+        while (true) {
+            byte k = 0;
+            if (matrixMassive[0] == 9 && matrixMassive[numberOfDigit - 1] == 9) {
+                break;
+            }
+            for (int i = numberOfDigit - 1; i >= 0; i--) {
+                if (matrixMassive[i] < 9) {
+                    matrixMassive[i]++;
+                    if (k > 0) {
+                        for (int j = numberOfDigit - 1; j > numberOfDigit - k - 1; j--) {
+                            matrixMassive[j] = matrixMassive[i];
+                        }
+                    }
+                    break;
+                } else {
+                    k++;
+                }
+            }
+            System.out.println(Arrays.toString(matrixMassive));
+        }
+        System.out.println(Arrays.toString(matrixMassive));
+
+    }
+
     public static void main(String[] args) {
-        getNumbers(9223372036854775807L);
+//        getNumbers(9223372036854775807L);
+        generateMatrixOfValue();
+
     }
 }
