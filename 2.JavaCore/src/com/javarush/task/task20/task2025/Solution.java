@@ -37,10 +37,10 @@ public class Solution {
             }
         }
 
-        byte[] zero = {0};
-        listZZ.add(zero);
+//        byte[] zero = {0};
+//        listZZ.add(zero);
 
-        for (byte c = 1; c <= 19; c++) {
+        for (byte c = 1; c <= 18; c++) {
             byte numberOfDigit = c;
             byte[] matrixMassive = new byte[numberOfDigit];
             for (int i = numberOfDigit - 1; i >= 0; i--) {
