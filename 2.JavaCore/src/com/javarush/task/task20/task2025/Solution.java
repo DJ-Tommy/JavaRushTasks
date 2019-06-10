@@ -8,7 +8,9 @@ import java.util.Comparator;
 Алгоритмы-числа
 */
 public class Solution {
-    public static long[][] DEGREE = new long[10][20];
+    public static long[][] DEGREE = new long[11][20];
+    public static ArrayList<byte[]> listZZ = new ArrayList<>();
+
 
     static {
         for (int i = 0; i < 20; i++) {
@@ -16,7 +18,7 @@ public class Solution {
             DEGREE[1][i] = 1;
         }
 
-        for (int j = 2; j < 10; j++) {
+        for (int j = 2; j < 11; j++) {
             for (int i = 0; i < 20; i++) {
                 long value = (long) j;
                 for (int k = 0; k < i; k++) {
@@ -30,122 +32,110 @@ public class Solution {
     }
 
     public static long[] getNumbers(long N) {
-        ArrayList<Long> result = new ArrayList<>();
-        if (N < 1) { return null; }
-        if (N > 0) {
-            int k = 10;
-            if (N < 10) {
-                k = (int) N;
+        generateMatrixOfValue();
+        numberOfDigit(N);
+        int count = 0;
+        for (byte[] b : listZZ) {
+            for (int ii = 0; ii < b.length; ii++) {
+//                System.out.print(b[ii] + " ");
             }
-            for (int i = 1; i < k; i++) {
-                result.add((long)i);
-            }
-        }
-
-        ArrayList<Integer> maxList = toArrayListFromNumber(N);
-        maxList.sort(Comparator.naturalOrder());
-        int maxListLength = maxList.size();
-        ArrayList<Integer> matrix = new ArrayList<>();
-        matrix.add(0);
-        matrix.add(0);
-
-        while (true) {
-
-            break;
-        }
-
-
-
-        for (long i = 1; i < N; i++) {
-            ArrayList<Integer> num = toArrayListFromNumber(i);
-
-            if (isTrueNumber(num)) {
-                long res = armstrongValue(num);
-
-                ArrayList<Integer> list = toArrayListFromNumber(res);
-                if (list.size() == num.size() && res < N) {
-                    long res1 = armstrongValue(list);
-                    if (res == res1) {
-                        System.out.println(num.toString() + res);
+            System.out.println();
+            long vV = armstrongValue(b);
+            if (numberOfDigit(vV) == b.length) {
+                count++;
+                ArrayList<Byte> result = toArrayListFromNumber(vV);
+                System.out.println(result.toString());
+                boolean bul = true;
+                for (byte q = 0; q < b.length; q++) {
+                    if (result.get(q) != b[q]) {
+                        bul = false;
+                        break;
                     }
+                }
+                if (bul == true) {
+//                    System.out.println(b.toString());
                 }
             }
         }
-
+        System.out.println("Count for numbers: " + count);
         return null;
     }
 
-    public static boolean isTrueNumber(ArrayList<Integer> arrayList) {
-        if (arrayList.size() == 1) {
-            return true;
-        }
-        for (int i = 1; i < arrayList.size(); i++) {
-            if (i == 1 && arrayList.get(1) == 0) {
-                continue;
-            }
-            if (arrayList.get(i) < arrayList.get(i - 1)) {
-                return false;
+    public static byte numberOfDigit(long value) {
+        for (byte i = 1; i < 20; i++) {
+            if (value / 10 < DEGREE[10][i]) {
+                return (byte)(i + 2);
             }
         }
-        return true;
+        return 19;
     }
 
-    public static ArrayList<Integer> toArrayListFromNumber(long N) {
-        ArrayList<Integer> num = new ArrayList<>();
+    public static ArrayList<Byte> toArrayListFromNumber(long N) {
+        ArrayList<Byte> num = new ArrayList<>();
         long j = N;
-        int k;
+        byte k;
         while (true) {
-            k = (int) j % 10;
+            k = (byte) (j % 10);
             num.add(0, k);
             j = j / 10;
             if (j <= 0) {
                 break;
             }
         }
+        num.sort(Comparator.naturalOrder());
         return num;
     }
 
-    public static Long armstrongValue(ArrayList<Integer> list) {
+    public static Long armstrongValue(byte[] b) {
         long res = 0;
-        for (int s : list) {
-            res += DEGREE[s][list.size() - 1];
+        for (byte s : b) {
+            res += DEGREE[s][b.length - 1];
         }
         return res;
     }
 
-    public static void generateMatrixOfValue () {
-        byte numberOfDigit = 5;
-        byte[] matrixMassive = new byte[numberOfDigit];
-        for (int i = numberOfDigit - 1; i >= 0; i--) {
-            matrixMassive[i] = 0;
-        }
-        while (true) {
-            byte k = 0;
-            if (matrixMassive[0] == 9 && matrixMassive[numberOfDigit - 1] == 9) {
-                break;
-            }
+    public static void generateMatrixOfValue() {
+        for (byte c = 1; c < 20; c++) {
+            byte numberOfDigit = c;
+            byte[] matrixMassive = new byte[numberOfDigit];
             for (int i = numberOfDigit - 1; i >= 0; i--) {
-                if (matrixMassive[i] < 9) {
-                    matrixMassive[i]++;
-                    if (k > 0) {
-                        for (int j = numberOfDigit - 1; j > numberOfDigit - k - 1; j--) {
-                            matrixMassive[j] = matrixMassive[i];
-                        }
-                    }
-                    break;
-                } else {
-                    k++;
-                }
+                matrixMassive[i] = 0;
             }
-            System.out.println(Arrays.toString(matrixMassive));
+            while (true) {
+                byte k = 0;
+                if (matrixMassive[0] == 9 && matrixMassive[numberOfDigit - 1] == 9) {
+                    break;
+                }
+                for (int i = numberOfDigit - 1; i >= 0; i--) {
+                    if (matrixMassive[i] < 9) {
+                        matrixMassive[i]++;
+                        if (k > 0) {
+                            for (int j = numberOfDigit - 1; j > numberOfDigit - k - 1; j--) {
+                                matrixMassive[j] = matrixMassive[i];
+                            }
+                        }
+                        break;
+                    } else {
+                        k++;
+                    }
+
+                }
+                listZZ.add(matrixMassive);
+//                listZZ.add(Arrays.copyOf(matrixMassive, matrixMassive.length));
+//                System.out.println(listZZ.get(listZZ.size() - 1).toString());
+
+            }
         }
-        System.out.println(Arrays.toString(matrixMassive));
+        System.out.println("Array contain      " + listZZ.size() + " variants");
+
 
     }
 
     public static void main(String[] args) {
-//        getNumbers(9223372036854775807L);
-        generateMatrixOfValue();
+        long executionTime = System.currentTimeMillis();
+        getNumbers(9223372036854775807L);
+        executionTime = System.currentTimeMillis() - executionTime;
+        System.out.println("Program execution: " + executionTime / 1000 + " sec and " + executionTime % 1000 + " millisec");
 
     }
 }
