@@ -1,5 +1,6 @@
 package com.javarush.task.task20.task2027;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /* 
@@ -23,8 +24,47 @@ same - (1, 1) - (4, 1)
     }
 
     public static List<Word> detectAllWords(int[][] crossword, String... words) {
+        ArrayList<Word> list = new ArrayList<>();
+        int height = crossword.length;
+        int weight = crossword[0].length;
+        for (String text : words) {
+            char[] chars = text.toCharArray();
+            Word word = new Word(text);
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < weight; j++) {
+                    if ((char) crossword[i][j] == chars[0]) {
 
-        return null;
+                        if (j + chars.length < weight) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i][j + y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j + y, i);
+                                }
+                            }
+                        }
+
+                        if (j - chars.length >= -1) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i][j - y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j - y, i);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            list.add(word);
+            System.out.println(word);
+        }
+        return list;
     }
 
     public static class Word {
