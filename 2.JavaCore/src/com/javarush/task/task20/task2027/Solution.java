@@ -33,6 +33,12 @@ same - (1, 1) - (4, 1)
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < weight; j++) {
                     if ((char) crossword[i][j] == chars[0]) {
+                        boolean find = false;
+                        if (chars.length == 1) {
+                            find = true;
+                            word.setStartPoint(j, i);
+                            word.setEndPoint(j, i);
+                        }
 // ----------------------- left and right
                         if (j + chars.length < weight) {
                             for (int y = 1; y < chars.length; y++) {
@@ -42,11 +48,12 @@ same - (1, 1) - (4, 1)
                                 if (y == chars.length - 1) {
                                     word.setStartPoint(j, i);
                                     word.setEndPoint(j + y, i);
+                                    find = true;
                                 }
                             }
                         }
 
-                        if (j - chars.length >= -1) {
+                        if (!find && j - chars.length >= -1) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i][j - y] != chars[y]) {
                                     break;
@@ -57,22 +64,22 @@ same - (1, 1) - (4, 1)
                                 }
                             }
                         }
-// ---------------------- up and down (does not fix)
-                        if (j + chars.length < weight) {
+// ---------------------- up and down
+                        if (!find && i + chars.length < height) {
                             for (int y = 1; y < chars.length; y++) {
-                                if (crossword[i][j + y] != chars[y]) {
+                                if (crossword[i + y][j] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
                                     word.setStartPoint(j, i);
-                                    word.setEndPoint(j + y, i);
+                                    word.setEndPoint(j, i + y);
                                 }
                             }
                         }
 
-                        if (j - chars.length >= -1) {
+                        if (!find && i - chars.length >= -1) {
                             for (int y = 1; y < chars.length; y++) {
-                                if (crossword[i][j - y] != chars[y]) {
+                                if (crossword[i - y][j] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
@@ -82,9 +89,30 @@ same - (1, 1) - (4, 1)
                             }
                         }
 
+// ----------------------- diagonally
+                        if (!find && j + chars.length < weight && i + chars.length < height) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i + y][j + y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j + y, i + y);
+                                }
+                            }
+                        }
 
-
-
+                        if (!find && j - chars.length >= -1 && i - chars.length >= -1) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i - y][j - y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j - y, i - y);
+                                }
+                            }
+                        }
                     }
                 }
             }
