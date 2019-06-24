@@ -33,7 +33,7 @@ same - (1, 1) - (4, 1)
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < weight; j++) {
                     if ((char) crossword[i][j] == chars[0]) {
-
+// ----------------------- left and right
                         if (j + chars.length < weight) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i][j + y] != chars[y]) {
@@ -57,6 +57,34 @@ same - (1, 1) - (4, 1)
                                 }
                             }
                         }
+// ---------------------- up and down (does not fix)
+                        if (j + chars.length < weight) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i][j + y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j + y, i);
+                                }
+                            }
+                        }
+
+                        if (j - chars.length >= -1) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i][j - y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j - y, i);
+                                }
+                            }
+                        }
+
+
+
+
                     }
                 }
             }
