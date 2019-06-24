@@ -15,12 +15,17 @@ public class Solution {
                 {'m', 'l', 'p', 'r', 'r', 'h'},
                 {'p', 'o', 'e', 'e', 'j', 'j'}
         };
-        detectAllWords(crossword, "home", "same");
+        detectAllWords(crossword, "home", "same", "leo", "home", "sun", "same", "god", "red", "mo");
         /*
 Ожидаемый результат
 home - (5, 3) - (2, 0)
 same - (1, 1) - (4, 1)
          */
+
+        for (Word w : detectAllWords(crossword, "home", "same", "leo", "poeejj", "jjeeop", "same", "god", "red", "mo", "rov", "hj")) {
+            System.out.println(w);
+        }
+
     }
 
     public static List<Word> detectAllWords(int[][] crossword, String... words) {
@@ -29,96 +34,133 @@ same - (1, 1) - (4, 1)
         int weight = crossword[0].length;
         for (String text : words) {
             char[] chars = text.toCharArray();
-            Word word = new Word(text);
+
+
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < weight; j++) {
                     if ((char) crossword[i][j] == chars[0]) {
-                        boolean find = false;
                         if (chars.length == 1) {
-                            find = true;
+                            Word word = new Word(text);
                             word.setStartPoint(j, i);
                             word.setEndPoint(j, i);
+                            list.add(word);
                         }
 // ----------------------- left and right
-                        if (j + chars.length < weight) {
+                        if (j + chars.length <= weight) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i][j + y] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
+                                    Word word = new Word(text);
                                     word.setStartPoint(j, i);
                                     word.setEndPoint(j + y, i);
-                                    find = true;
+                                    list.add(word);
                                 }
                             }
                         }
 
-                        if (!find && j - chars.length >= -1) {
+                        if (j - chars.length >= -1) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i][j - y] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
+                                    Word word = new Word(text);
                                     word.setStartPoint(j, i);
                                     word.setEndPoint(j - y, i);
+                                    list.add(word);
                                 }
                             }
                         }
 // ---------------------- up and down
-                        if (!find && i + chars.length < height) {
+                        if (i + chars.length <= height) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i + y][j] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
+                                    Word word = new Word(text);
                                     word.setStartPoint(j, i);
                                     word.setEndPoint(j, i + y);
+                                    list.add(word);
                                 }
                             }
                         }
 
-                        if (!find && i - chars.length >= -1) {
+                        if (i - chars.length >= -1) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i - y][j] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
+                                    Word word = new Word(text);
                                     word.setStartPoint(j, i);
-                                    word.setEndPoint(j - y, i);
+                                    word.setEndPoint(j, i - y);
+                                    list.add(word);
                                 }
                             }
                         }
 
 // ----------------------- diagonally
-                        if (!find && j + chars.length < weight && i + chars.length < height) {
+                        if (j + chars.length <= weight && i + chars.length <= height) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i + y][j + y] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
+                                    Word word = new Word(text);
                                     word.setStartPoint(j, i);
                                     word.setEndPoint(j + y, i + y);
+                                    list.add(word);
                                 }
                             }
                         }
 
-                        if (!find && j - chars.length >= -1 && i - chars.length >= -1) {
+                        if (j - chars.length >= -1 && i - chars.length >= -1) {
                             for (int y = 1; y < chars.length; y++) {
                                 if (crossword[i - y][j - y] != chars[y]) {
                                     break;
                                 }
                                 if (y == chars.length - 1) {
+                                    Word word = new Word(text);
                                     word.setStartPoint(j, i);
                                     word.setEndPoint(j - y, i - y);
+                                    list.add(word);
+                                }
+                            }
+                        }
+
+                        if (j + chars.length <= weight && i - chars.length >= -1) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i - y][j + y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    Word word = new Word(text);
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j + y, i - y);
+                                    list.add(word);
+                                }
+                            }
+                        }
+
+                        if (j - chars.length >= -1 && i + chars.length <= height) {
+                            for (int y = 1; y < chars.length; y++) {
+                                if (crossword[i + y][j - y] != chars[y]) {
+                                    break;
+                                }
+                                if (y == chars.length - 1) {
+                                    Word word = new Word(text);
+                                    word.setStartPoint(j, i);
+                                    word.setEndPoint(j - y, i + y);
+                                    list.add(word);
                                 }
                             }
                         }
                     }
                 }
             }
-
-            list.add(word);
-            System.out.println(word);
         }
         return list;
     }
