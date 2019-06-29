@@ -14,12 +14,22 @@ public class Solution {
     }
 
     public static byte[] getNetAddress(byte[] ip, byte[] mask) {
-        return new byte[4];
+        byte[] b = new byte[4];
+        for (int i = 0; i < 4; i++) {
+            b[i] = (byte)(ip[i] & mask[i]);
+        }
+
+        return b;
     }
 
     public static void print(byte[] bytes) {
+        StringBuilder s = new StringBuilder();
         for (byte b : bytes) {
-            System.out.print(Integer.toBinaryString(b) + " ");
+//            String bb = Integer.toBinaryString(Byte.toUnsignedInt(b));
+            String bb = Integer.toBinaryString(b);
+            s.append(("00000000" + bb).substring(bb.length()));
+            s.append(" ");
         }
+        System.out.println(s);
     }
 }
