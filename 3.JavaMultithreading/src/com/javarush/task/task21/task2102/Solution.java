@@ -17,6 +17,12 @@ public class Solution {
     }
 
     public static boolean isModifierSet(int allModifiers, int specificModifier) {
+        if (Modifier.isStatic(specificModifier) && Modifier.isStatic(allModifiers)) {
+            return true;
+        }
+        if (Modifier.isPublic(specificModifier) && Modifier.isPublic(allModifiers)) {
+            return true;
+        }
         return false;
     }
 
