@@ -1,6 +1,8 @@
 package com.javarush.task.task21.task2109;
 
-/* 
+import java.util.Objects;
+
+/*
 Запретить клонирование
 */
 public class Solution {
@@ -20,6 +22,20 @@ public class Solution {
         public int getJ() {
             return j;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof A)) return false;
+            A a = (A) o;
+            return i == a.i &&
+                    j == a.j;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(i, j);
+        }
     }
 
     public static class B extends A {
@@ -33,6 +49,23 @@ public class Solution {
         public String getName() {
             return name;
         }
+
+        public B clone() throws CloneNotSupportedException{
+            throw  new CloneNotSupportedException();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof B)) return false;
+            B b = (B) o;
+            return name.equals(b.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name);
+        }
     }
 
     public static class C extends B {
@@ -43,5 +76,10 @@ public class Solution {
 
     public static void main(String[] args) {
 
+    }
+
+    public C clone() throws CloneNotSupportedException {
+        C clone = (C) super.clone();
+        return clone;
     }
 }
