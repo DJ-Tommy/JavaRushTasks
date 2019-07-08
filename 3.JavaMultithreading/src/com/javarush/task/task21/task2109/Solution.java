@@ -50,7 +50,7 @@ public class Solution {
             return name;
         }
 
-        public B clone() throws CloneNotSupportedException{
+        public Object clone() throws CloneNotSupportedException{
             throw  new CloneNotSupportedException();
         }
 
@@ -74,12 +74,22 @@ public class Solution {
         }
     }
 
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) throws CloneNotSupportedException {
+        C c = new C(10, 10, "String");
+        System.out.println(c);
+        C clone = (C) c.clone();
+        System.out.println(clone);
     }
 
+    @Override
     public C clone() throws CloneNotSupportedException {
-        C clone = (C) super.clone();
+        C clone = new C(clone().getI(), clone().getJ(), clone().getName());
+
         return clone;
     }
+
+
+
 }
