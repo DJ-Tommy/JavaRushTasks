@@ -2,7 +2,7 @@ package com.javarush.task.task21.task2106;
 
 import java.util.Date;
 
-/* 
+/*
 Ошибка в equals/hashCode
 */
 public class Solution {
