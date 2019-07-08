@@ -3,7 +3,7 @@ package com.javarush.task.task21.task2102;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-/* 
+/*
 Сравниваем модификаторы
 */
 public class Solution {

@@ -1,6 +1,6 @@
 package com.javarush.task.task18.task1821;
 
-/* 
+/*
 Встречаемость символов
 */
 
