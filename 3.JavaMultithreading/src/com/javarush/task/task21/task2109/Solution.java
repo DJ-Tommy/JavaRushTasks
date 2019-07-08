@@ -72,6 +72,12 @@ public class Solution {
         public C(int i, int j, String name) {
             super(i, j, name);
         }
+
+        public C clone() {
+            C clone = new C(this.getI(), this.getJ(), this.getName());
+            return clone;
+        }
+
     }
 
 
@@ -79,17 +85,7 @@ public class Solution {
     public static void main(String[] args) throws CloneNotSupportedException {
         C c = new C(10, 10, "String");
         System.out.println(c);
-        C clone = (C) c.clone();
+        C clone = c.clone();
         System.out.println(clone);
     }
-
-    @Override
-    public C clone() throws CloneNotSupportedException {
-        C clone = new C(clone().getI(), clone().getJ(), clone().getName());
-
-        return clone;
-    }
-
-
-
 }
