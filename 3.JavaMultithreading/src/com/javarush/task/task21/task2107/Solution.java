@@ -2,6 +2,7 @@ package com.javarush.task.task21.task2107;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /* 
 Глубокое клонирование карты
@@ -35,6 +36,8 @@ public class Solution implements Cloneable{
         return sol;
     }
 
+
+
     protected Map<String, User> users = new LinkedHashMap();
 
     public static class User implements Cloneable{
@@ -49,6 +52,20 @@ public class Solution implements Cloneable{
         public User clone() throws CloneNotSupportedException {
             User clone = (User) super.clone();
             return clone;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof User)) return false;
+            User user = (User) o;
+            return age == user.age &&
+                    Objects.equals(name, user.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(age, name);
         }
     }
 }
