@@ -1,6 +1,6 @@
 package com.javarush.task.task21.task2108;
 
-/* 
+/*
 Клонирование растений
 */
 public class Solution {
@@ -49,5 +49,7 @@ public class Solution {
             clone.branches = branches.clone();
             return clone;
         }
+
+
     }
 }
