@@ -20,9 +20,7 @@ public class Solution {
     }
 
     protected void initThreads() {
-        this.thread1 = new Thread(new Task(this, "AH\tI"), FIRST_THREAD_NAME);
-//        this.thread1 = new Thread(new Task(this, "A\tB\tC\tD\tE\tF\tG\tH\tI"), FIRST_THREAD_NAME);
-//        this.thread2 = new Thread(new Task(this, "J\tKZ"), SECOND_THREAD_NAME);
+        this.thread1 = new Thread(new Task(this, "A\tB\tC\tD\tE\tF\tG\tH\tI"), FIRST_THREAD_NAME);
         this.thread2 = new Thread(new Task(this, "J\tK\tL\tM\tN\tO\tP\tQ\tR\tS\tT\tU\tV\tW\tX\tY\tZ"), SECOND_THREAD_NAME);
         this.thread3 = new Thread(new Task(this, "\t\t"), "3#");
 
@@ -34,19 +32,24 @@ public class Solution {
     }
 
     public synchronized String getPartOfString(String string, String threadName) {
-        int fistTab = 0;
-        int lastTab = 0;
-        fistTab = string.indexOf("\t");
-        lastTab = string.lastIndexOf("\t");
-        if (fistTab > 0 && fistTab < lastTab) {
-            return string.substring(fistTab, lastTab);
+        try {
+            int fistTab = 0;
+            int lastTab = 0;
+            fistTab = string.indexOf("\t");
+            lastTab = string.lastIndexOf("\t");
+            String s = string.substring(fistTab, lastTab);
+            return s;
+        } catch (Exception e) {
+            if (threadName.equals(Solution.FIRST_THREAD_NAME)) {
+                throw new StringForFirstThreadTooShortException(e);
+            }
+            if (threadName.equals(Solution.SECOND_THREAD_NAME)) {
+                throw new StringForSecondThreadTooShortException(e);
+            }
+            throw new RuntimeException(e);
         }
-        if (threadName.equals(Solution.FIRST_THREAD_NAME)) {
-            throw new StringForFirstThreadTooShortException();
-        }
-        if (threadName.equals(Solution.SECOND_THREAD_NAME)) {
-            throw new StringForSecondThreadTooShortException();
-        }
-        throw new RuntimeException();
+
+
+
     }
 }
