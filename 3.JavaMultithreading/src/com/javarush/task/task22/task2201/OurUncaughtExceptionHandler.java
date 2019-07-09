@@ -22,7 +22,7 @@ public class OurUncaughtExceptionHandler implements Thread.UncaughtExceptionHand
 
     protected String getFormattedStringForSecondThread(Thread t, Throwable e, String string) {
         String s;
-        s = String.format(string, e.getClass().getSimpleName(), e.getMessage(), t.getName());
+        s = String.format(string, e.getMessage(), e.getClass().getSimpleName(), t.getName());
         return s;
     }
 

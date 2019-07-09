@@ -33,20 +33,19 @@ public class Solution {
 
     public synchronized String getPartOfString(String string, String threadName) {
         try {
-            int fistTab = 0;
-            int lastTab = 0;
-            fistTab = string.indexOf("\t");
-            lastTab = string.lastIndexOf("\t");
-            String s = string.substring(fistTab, lastTab);
+            int fistTab = string.indexOf("\t");
+            int lastTab = string.lastIndexOf("\t");
+            String s = string.substring(fistTab + 1, lastTab);
             return s;
         } catch (Exception e) {
             if (threadName.equals(Solution.FIRST_THREAD_NAME)) {
                 throw new StringForFirstThreadTooShortException(e);
             }
-            if (threadName.equals(Solution.SECOND_THREAD_NAME)) {
+            else if (threadName.equals(Solution.SECOND_THREAD_NAME)) {
                 throw new StringForSecondThreadTooShortException(e);
+            } else {
+                throw new RuntimeException(e);
             }
-            throw new RuntimeException(e);
         }
 
 
