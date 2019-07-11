@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /*
 Обращенные слова
@@ -14,8 +17,8 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//        String fileName = reader.readLine();
-        String fileName = "d:\\44.txt";
+        String fileName = reader.readLine();
+//        String fileName = "d:\\44.txt";
         reader.close();
         BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
         StringBuilder stringBuilder = new StringBuilder();
@@ -28,11 +31,10 @@ public class Solution {
             stringBuilder.append(s + " ");
         }
 
-        System.out.println(stringBuilder.toString());
+//        System.out.println(stringBuilder.toString());
         ArrayList<String> stringArray = new ArrayList<>();
         Collections.addAll(stringArray, stringBuilder.toString().split("\\s+"));
-        System.out.println(stringArray);
-
+//        System.out.println(stringArray);
 
         int numberOfLine = 0;
         while (true) {
@@ -58,12 +60,12 @@ public class Solution {
                 break;
             }
         }
-        for (Pair p: result) {
-            System.out.println(p.first + " " + p.second);
-            System.out.println(p);
+        for (Pair p : result) {
+//            System.out.println(p.first + " " + p.second);
+//            System.out.println(p);
         }
 
-        System.out.println(stringArray);
+//        System.out.println(stringArray);
     }
 
     public static class Pair {
@@ -95,10 +97,10 @@ public class Solution {
 
         @Override
         public String toString() {
-            return  first == null && second == null ? "" :
-                        first == null ? second :
+            return first == null && second == null ? "" :
+                    first == null ? second :
                             second == null ? first :
-                                first.compareTo(second) < 0 ? first + " " + second : second + " " + first;
+                                    first.compareTo(second) < 0 ? first + " " + second : second + " " + first;
 
         }
     }
