@@ -11,17 +11,16 @@ public class Solution {
         String nameInputFile = args[0];
         String nameOutputFile = args[1];
         File file = new File(nameInputFile);
-        InputStreamReader fileReader = new InputStreamReader(new FileInputStream(file));
-        Charset win = Charset.forName("Windows-1251");
+        FileInputStream fileReader = new FileInputStream(file);
+        FileOutputStream outputStream = new FileOutputStream(nameOutputFile);
+        Charset windows1251 = Charset.forName("Windows-1251");
+        Charset utf8 = Charset.forName("UTF-8");
         byte[] inputBytes = new byte[(int)file.length()];
         fileReader.read(inputBytes);
         fileReader.close();
-        String input = new String(inputBytes, win);
-
-
-        Charset koi8 = Charset.forName("UTF8");
-
-
-        String input = new String()
+        String input = new String(inputBytes, windows1251);
+        inputBytes = input.getBytes(utf8);
+        outputStream.write(inputBytes);
+        outputStream.close();
     }
 }
