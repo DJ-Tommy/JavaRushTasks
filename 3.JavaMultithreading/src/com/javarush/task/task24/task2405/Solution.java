@@ -13,6 +13,37 @@ public class Solution implements Action {
 
         public void someAction() {
             //!!!!! Все изменения должны быть только тут
+            while (param > 0) {
+                if (param > 1) {
+                    System.out.println(param--);
+                } else if (param == 1){
+                    System.out.println(param);
+                    break;
+                }
+
+            }
+            if (param == 1) {
+                new FirstClass(){
+                    @Override
+                    public void someAction() {
+                        super.someAction();
+                    }
+
+                    @Override
+                    public Action getDependantAction() {
+                        return null;
+                    }
+                }.someAction();
+                param--;
+            }
+                new SecondClass(){
+                    @Override
+                    public void someAction() {
+                        super.someAction();
+                        System.out.println(SPECIFIC_ACTION_FOR_ANONYMOUS_SECOND_CLASS_PARAM.substring(1) + param);
+                    }
+                }.someAction();
+
         }
     };
 
