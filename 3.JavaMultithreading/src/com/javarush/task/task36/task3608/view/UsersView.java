@@ -13,13 +13,25 @@ public class UsersView implements View {
         controller.onShowAllUsers();
     }
 
+    public void fireEventShowDeletedUsers() {
+        controller.onShowAllDeletedUsers();
+    }
+
+    public void fireEventOpenUserEditForm(long id) {
+        controller.onOpenUserEditForm(id);
+    }
+
     @Override
     public void refresh(ModelData modelData) {
-        System.out.println("All users:");
+        if (!modelData.isDisplayDeletedUserList()) {
+            System.out.println("All users:");
+        } else {
+            System.out.println("All deleted users:");
+        }
         for (User user : modelData.getUsers()) {
             System.out.println("\t" + user.toString());
-            System.out.println("===================================================");
         }
+        System.out.println("===================================================");
     }
 
     @Override

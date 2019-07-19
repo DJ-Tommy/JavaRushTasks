@@ -10,6 +10,21 @@ public class FakeModel implements Model {
     private ModelData modelData = new ModelData();
 
     @Override
+    public void deleteUserById(long id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void loadDeletedUsers() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void loadUserById(long userId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public ModelData getModelData() {
         return modelData;
     }
