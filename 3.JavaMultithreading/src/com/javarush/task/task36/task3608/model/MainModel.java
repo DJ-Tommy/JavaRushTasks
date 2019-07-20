@@ -16,12 +16,14 @@ public class MainModel implements Model {
         return modelData;
     }
 
+    @Override
     public void loadDeletedUsers() {
         List<User> users = userService.getAllDeletedUsers();
         modelData.setUsers(users);
         modelData.setDisplayDeletedUserList(true);
     }
 
+    @Override
     public void loadUserById(long userId) {
         User user = userService.getUsersById(userId);
         modelData.setActiveUser(user);
@@ -31,14 +33,24 @@ public class MainModel implements Model {
     @Override
     public void loadUsers() {
         modelData.setUsers(userService.getUsersBetweenLevels(1, 100));
+        modelData.setUsers(getAllUsers());
         modelData.setDisplayDeletedUserList(false);
     }
-
+    @Override
     public void deleteUserById(long id) {
-        modelData.getUsers();
+        userService.deleteUser(id);
+        loadUsers();
     }
 
     private List<User> getAllUsers() {
+        List<User> userList = userService.filterOnlyActiveUsers(userService.getUsersBetweenLevels(1, 100));
+        modelData.setUsers(userList);
         return modelData.getUsers();
+    }
+
+    @Override
+    public void changeUserData(String name, long id, int level) {
+        userService.createOrUpdateUser(name, id, level);
+        loadUsers();
     }
 }
