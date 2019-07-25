@@ -19,6 +19,15 @@ public class Solution extends Thread {
 
     public void interrupt() {
         //implement logic here
+        try {
+            in.close();
+            socket.close();
+        } catch (Exception e) {
+
+        } finally {
+            super.interrupt();
+        }
+
     }
 
     public void run() {
