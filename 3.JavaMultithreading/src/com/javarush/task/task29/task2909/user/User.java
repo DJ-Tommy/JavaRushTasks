@@ -4,6 +4,7 @@ public class User {
     private String name;
     private String surname;
     private int age;
+    private boolean man;
 
     private String country;
     private String city;
@@ -15,6 +16,26 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.age = age;
+    }
+
+    public void printInfo() {
+        System.out.println("Имя: " + getName());
+        System.out.println("Фамилия: " + getSurname());
+    }
+
+    public void printAdditionalInfo() {
+        if (getAge() < 16)
+            System.out.println("Пользователь моложе 16 лет");
+        else
+            System.out.println("Пользователь старше 16 лет");
+    }
+
+    public boolean isMan() {
+        return man;
+    }
+
+    public void setMan(boolean man) {
+        this.man = man;
     }
 
     public String getName() {
