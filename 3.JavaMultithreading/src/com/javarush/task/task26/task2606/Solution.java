@@ -18,7 +18,7 @@ public class Solution {
     private final URL javarushVkGroupUrl2Child;
     private final URL javarushVkGroupUrl3Child;
 
-    private ExecutorService executorService;
+    private volatile ExecutorService executorService;
     private final Set<URL> urlsForProcessing = Collections.synchronizedSet(new HashSet<>());
 
     public static void main(String[] args) throws MalformedURLException, InterruptedException {
@@ -98,6 +98,7 @@ public class Solution {
             this.url = url;
         }
 
+        @Override
         public void run() {
             for (URL link : processPage(url)) {
                 if (Thread.currentThread().isInterrupted()) return;
