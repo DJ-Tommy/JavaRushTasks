@@ -8,12 +8,6 @@ public class Solution {
     private final Node[] buckets;
     private final Object[] locks;
 
-    static class Node {
-        public Node next;
-        public Object key;
-        public Object value;
-    }
-
     public Solution(int numberBuckets) {
         buckets = new Node[numberBuckets];
         locks = new Object[NUMBER_LOCKS];
@@ -22,13 +16,17 @@ public class Solution {
         }
     }
 
+    public static void main(String[] args) {
+
+    }
+
     private final int hash(Object key) {
         return Math.abs(key.hashCode() % buckets.length);
     }
 
     public Object get(Object key) {
         int hash = hash(key);
-        synchronized (this) {
+        synchronized (locks[hash % locks.length]) {
             for (Node m = buckets[hash]; m != null; m = m.next) {
                 if (m.key.equals(key)) return m.value;
             }
@@ -38,13 +36,15 @@ public class Solution {
 
     public void clear() {
         for (int i = 0; i < buckets.length; i++) {
-            synchronized (this) {
+            synchronized (locks[i % locks.length]) {
                 buckets[i] = null;
             }
         }
     }
 
-    public static void main(String[] args) {
-
+    static class Node {
+        public Node next;
+        public Object key;
+        public Object value;
     }
 }
