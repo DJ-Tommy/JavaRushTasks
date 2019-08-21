@@ -12,9 +12,12 @@ public class ProducerTask implements Runnable {
         new Thread(this, "ProducerTask").start();
     }
 
+    @Override
     public void run() {
-        while (!stopped) {
-            transferObject.put(i.incrementAndGet());
+        synchronized (transferObject) {
+            while (!stopped) {
+                transferObject.put(i.incrementAndGet());
+            }
         }
     }
 
