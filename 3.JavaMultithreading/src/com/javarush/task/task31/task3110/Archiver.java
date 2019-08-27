@@ -7,10 +7,15 @@ import java.nio.file.Paths;
 public class Archiver {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Запроси пользователя ввести полный путь архива с клавиатуры.");
+        System.out.println("Enter your name of archive and full path: ");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ZipFileManager zipFileManager = new ZipFileManager(Paths.get(reader.readLine()));
+//        ZipFileManager zipFileManager = new ZipFileManager(Paths.get("d:\\1.zip"));
+//        System.out.println("d:\\1.zip");
+        System.out.println("Add the file for archiving: ");
         zipFileManager.createZip(Paths.get(reader.readLine()));
+//        System.out.println("d:\\1.txt");
+//        zipFileManager.createZip(Paths.get("d:\\1.txt"));
         reader.close();
     }
 }
