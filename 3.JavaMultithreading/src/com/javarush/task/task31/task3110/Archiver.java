@@ -1,25 +1,47 @@
 package com.javarush.task.task31.task3110;
 
-import com.javarush.task.task31.task3110.command.ExitCommand;
+import com.javarush.task.task31.task3110.exception.WrongZipFileException;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
+import java.io.IOException;
 
 public class Archiver {
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("Enter your name of archive and full path: ");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ZipFileManager zipFileManager = new ZipFileManager(Paths.get(reader.readLine()));
-//        ZipFileManager zipFileManager = new ZipFileManager(Paths.get("d:\\1.zip"));
-//        System.out.println("d:\\1.zip");
-        System.out.println("Add the file for archiving: ");
-        zipFileManager.createZip(Paths.get(reader.readLine()));
-//        System.out.println("d:\\1.txt");
-//        zipFileManager.createZip(Paths.get("d:\\1.txt"));
-        reader.close();
-        ExitCommand exitCommand = new ExitCommand();
-        exitCommand.execute();
+    public static void main(String[] args) {
+
+        Operation operation = null;
+
+        while (true) {
+            try {
+                operation = askOperation();
+                CommandExecutor.execute(operation);
+
+            } catch (WrongZipFileException e1) {
+                ConsoleHelper.writeMessage("Вы не выбрали файл архива или выбрали неверный файл.");
+            } catch (Exception e2) {
+                ConsoleHelper.writeMessage("Произошла ошибка. Проверьте введенные данные.");
+            }
+            if (operation == Operation.EXIT) {
+                break;
+            }
+        }
+    }
+
+    public static Operation askOperation() throws IOException {
+        String text = "Выберите операцию:\n" +
+                Operation.CREATE.ordinal() + " - упаковать файлы в архив\n" +
+                Operation.ADD.ordinal() + " - добавить файл в архив\n" +
+                Operation.REMOVE.ordinal() + " - удалить файл из архива\n" +
+                Operation.EXTRACT.ordinal() + " - распаковать архив\n" +
+                Operation.CONTENT.ordinal() + " - просмотреть содержимое архива\n" +
+                Operation.EXIT.ordinal() + " - выход";
+        ConsoleHelper.writeMessage(text);
+        int number = ConsoleHelper.readInt();
+        for (Operation operation : Operation.values()) {
+            if (operation.ordinal() == number) {
+                return operation;
+            }
+        }
+        return null;
+
     }
 }
