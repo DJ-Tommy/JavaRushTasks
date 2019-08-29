@@ -19,13 +19,6 @@ public class Archiver {
             }
 
         } while (operation != Operation.EXIT);
-
-//            System.out.println("Enter your name of archive and full path: ");
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//            ZipFileManager zipFileManager = new ZipFileManager(Paths.get(reader.readLine()));
-//            System.out.println("Add the file for archiving: ");
-//            zipFileManager.createZip(Paths.get(reader.readLine()));
-//            reader.close();
     }
 
 
