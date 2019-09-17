@@ -1,6 +1,7 @@
 package com.javarush.task.task28.task2808;
 
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -18,7 +19,7 @@ public class Solution {
 
         futures.add(executor.submit(getTask(10000000)));
 
-        for(Future<String> future : futures) {
+        for (Future<String> future : futures) {
             System.out.println(future.get());
         }
 
@@ -42,6 +43,17 @@ public class Solution {
     }
 
     public static Callable<String> getTask(final int i) {
-        return null;
+        BigInteger bigInteger = BigInteger.valueOf(0);
+        for (int ii = 1; ii <= i; ii++) {
+            bigInteger = bigInteger.add(BigInteger.valueOf(ii));
+        }
+        String result = bigInteger.toString();
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return result;
+            }
+        };
+        return callable;
     }
 }
