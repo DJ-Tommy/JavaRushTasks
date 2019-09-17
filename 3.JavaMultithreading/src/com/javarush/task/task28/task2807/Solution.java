@@ -10,6 +10,22 @@ import java.util.concurrent.TimeUnit;
 public class Solution {
     public static void main(String[] args) throws InterruptedException {
         // Add your code here
+        LinkedBlockingQueue<Runnable> queues = new LinkedBlockingQueue<>();
+        for (int i = 0; i < 10; i++) {
+            final int ii = i + 1;
+            queues.add(new Runnable() {
+                @Override
+                public void run() {
+                    doExpensiveOperation(ii);
+                }
+            });
+        }
+
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(3, 5, 1000, TimeUnit.MILLISECONDS, queues);
+        executor.prestartAllCoreThreads();
+        executor.shutdown();
+        executor.awaitTermination(5, TimeUnit.SECONDS);
+
 
         /* Example output
 pool-1-thread-2, localId=2
