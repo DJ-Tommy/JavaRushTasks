@@ -1,0 +1,28 @@
+package com.javarush.task.task32.task3209;
+
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
+
+public class HTMLFileFilter extends FileFilter {
+
+    @Override
+    public boolean accept(File f) {
+        if (f.isDirectory()) {
+            return true;
+        } else {
+            int lenght = f.getName().length();
+            if (lenght > 4 && f.getName().toLowerCase().substring(lenght - 4).equals(".htm")) {
+                return true;
+            }
+            if (lenght > 5 && f.getName().toLowerCase().substring(lenght - 5).equals(".html")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String getDescription() {
+        return "HTML и HTM файлы";
+    }
+}
