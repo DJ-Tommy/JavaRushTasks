@@ -1,24 +1,47 @@
 package com.javarush.task.task27.task2712.statistic;
 
 import com.javarush.task.task27.task2712.statistic.event.EventDataRow;
+import com.javarush.task.task27.task2712.statistic.event.EventType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StatisticManager {
     private static StatisticManager statisticManager;
+    private StatisticStorage statisticStorage = new StatisticStorage();
+
 
     private StatisticManager() {
-        this.statisticManager = new StatisticManager();
     }
 
     public static StatisticManager getInstance() {
+
         if (statisticManager == null) {
-            return new StatisticManager();
-        } else {
-            return statisticManager;
+            statisticManager = new StatisticManager();
         }
+        return statisticManager;
     }
 
     public void register(EventDataRow data) {
-
+        statisticStorage.put(data);
     }
 
+    private class StatisticStorage {
+
+        Map<EventType, List<EventDataRow>> storage = new HashMap<>();
+
+        public StatisticStorage() {
+            EventType[] types = EventType.values();
+            for (int i = 0; i < types.length; i++) {
+                storage.put(types[i], new ArrayList<EventDataRow>());
+            }
+        }
+
+        private void put(EventDataRow data) {
+            storage.get(data.getType()).add(data);
+        }
+
+    }
 }

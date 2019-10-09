@@ -42,4 +42,8 @@ public class Order {
         }
         return "Your order: [" + dishesList.toString() + "] of " + tablet.toString();
     }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
 }

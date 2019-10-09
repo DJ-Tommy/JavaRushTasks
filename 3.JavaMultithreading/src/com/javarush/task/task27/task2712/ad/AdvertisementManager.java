@@ -2,6 +2,8 @@ package com.javarush.task.task27.task2712.ad;
 
 
 import com.javarush.task.task27.task2712.ConsoleHelper;
+import com.javarush.task.task27.task2712.statistic.StatisticManager;
+import com.javarush.task.task27.task2712.statistic.event.VideoSelectedEventDataRow;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,7 +13,7 @@ import java.util.List;
 public class AdvertisementManager {
     private final AdvertisementStorage storage = AdvertisementStorage.getInstance();
     private int timeSeconds;
-    private int maxProfit = 0;
+    private long maxProfit = 0;
     private List<List<Advertisement>> resultList = new ArrayList<>();
 
     public AdvertisementManager(int timeSeconds) {
@@ -72,6 +74,8 @@ public class AdvertisementManager {
             }
         });
 
+        StatisticManager.getInstance().register(new VideoSelectedEventDataRow(result, profit(result), time(result)));
+
         for (Advertisement advertisement : result) {
             advertisement.revalidate();
             ConsoleHelper.writeMessage(advertisement.getName() + " is displaying... " +
@@ -82,7 +86,7 @@ public class AdvertisementManager {
     }
 
     private void createListWithMaxProfit(List<Advertisement> list) {
-        int profitOfList = profit(list);
+        long profitOfList = profit(list);
         int timeOfList = time(list);
         if (timeOfList > timeSeconds) {
             for (int i = 0; i < list.size(); i++) {
@@ -109,7 +113,7 @@ public class AdvertisementManager {
         return time;
     }
 
-    private int profit(List<Advertisement> list) {
+    private long profit(List<Advertisement> list) {
         int sum = 0;
         for (Advertisement advertisement : list) {
             sum += advertisement.getAmountPerOneDisplaying();
