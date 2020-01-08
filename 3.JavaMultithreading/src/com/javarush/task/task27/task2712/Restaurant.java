@@ -21,9 +21,9 @@ public class Restaurant {
         statisticManager.register(cook);
         Cook cook2 = new Cook("Vasuus2");
         statisticManager.register(cook2);
+        OrderManager orderManager = new OrderManager();
         for (Tablet tablet : tablets) {
-            tablet.addObserver(cook);
-            tablet.addObserver(cook2);
+            tablet.addObserver(orderManager);
         }
         Waiter waiter = new Waiter();
         cook.addObserver(waiter);
