@@ -3,6 +3,8 @@ package com.javarush.task.task27.task2712.kitchen;
 import com.javarush.task.task27.task2712.Tablet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class TestOrder extends Order {
 
@@ -11,15 +13,14 @@ public class TestOrder extends Order {
     }
 
     @Override
-    protected void initDishes() throws IOException {
-        Dish[] allDishes = Dish.values();
-        int count = (int) (10 * Math.random());
-        for (int i = -1; i < count / 3; i++) {
-            Dish dish = allDishes[(int) (allDishes.length * Math.random())];
-            if (!dishes.contains(dish)) {
-                dishes.add(dish);
-            }
-        }
-
+    protected void initDishes() {
+        dishes = new ArrayList<>();
+        Random random = new Random();
+        int i = random.nextInt(Dish.values().length);
+        int j = random.nextInt(Dish.values().length);
+        int k = random.nextInt(Dish.values().length);
+        dishes.add(Dish.values()[j]);
+        dishes.add(Dish.values()[i]);
+        dishes.add(Dish.values()[k]);
     }
 }

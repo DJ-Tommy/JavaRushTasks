@@ -33,7 +33,8 @@ public class Restaurant {
         thread.start();
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException e) { }
+        } catch (InterruptedException e) {
+        }
         thread.interrupt();
 
         directorTablet.printActiveVideoSet();

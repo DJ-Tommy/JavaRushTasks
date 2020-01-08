@@ -32,6 +32,10 @@ public class StatisticManager {
         cooks.add(cook);
     }
 
+    public Set<Cook> getCooks() {
+        return cooks;
+    }
+
     public Map<Date, Map<String, Integer>> getCookerTimes() {
         Map<Date, Map<String, Integer>> cookersTimes = new HashMap<>();
         List<EventDataRow> listEvents = statisticStorage.getStorage(EventType.COOKED_ORDER);
