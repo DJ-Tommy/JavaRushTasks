@@ -1,5 +1,7 @@
 package com.javarush.task.task27.task2712;
 
+import com.javarush.task.task27.task2712.ad.Advertisement;
+import com.javarush.task.task27.task2712.ad.StatisticAdvertisementManager;
 import com.javarush.task.task27.task2712.statistic.StatisticManager;
 
 import java.text.DecimalFormat;
@@ -8,6 +10,7 @@ import java.util.*;
 
 public class DirectorTablet {
     StatisticManager statisticManager = StatisticManager.getInstance();
+    StatisticAdvertisementManager statisticAdvertisementManager = StatisticAdvertisementManager.getInstance();
 
     public void printAdvertisementProfit() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
@@ -66,10 +69,32 @@ public class DirectorTablet {
     }
 
     public void printActiveVideoSet() {
+        List<Advertisement> activeVideos = statisticAdvertisementManager.getActiveAdvertisements();
+        activeVideos.sort(new Comparator<Advertisement>() {
+            @Override
+            public int compare(Advertisement o1, Advertisement o2) {
+                return o1.getName().compareToIgnoreCase(o2.getName());
+            }
+        });
+
+        for (Advertisement advertisement : activeVideos) {
+            ConsoleHelper.writeMessage(advertisement.getName() + " - " + advertisement.getHits());
+        }
 
     }
 
     public void printArchivedVideoSet() {
+        List<Advertisement> inactiveVideos = statisticAdvertisementManager.getInactiveAdvertisements();
+        inactiveVideos.sort(new Comparator<Advertisement>() {
+            @Override
+            public int compare(Advertisement o1, Advertisement o2) {
+                return o1.getName().compareToIgnoreCase(o2.getName());
+            }
+        });
+
+        for (Advertisement advertisement : inactiveVideos) {
+            ConsoleHelper.writeMessage(advertisement.getName());
+        }
 
     }
 }
