@@ -22,4 +22,18 @@ public class VideoSelectedEventDataRow implements EventDataRow {
     public EventType getType() {
         return EventType.SELECTED_VIDEOS;
     }
+
+    @Override
+    public Date getDate() {
+        return currentDate;
+    }
+
+    @Override
+    public int getTime() {
+        return (int)(new Date().getTime() - currentDate.getTime());
+    }
+
+    public long getAmount() {
+        return amount;
+    }
 }

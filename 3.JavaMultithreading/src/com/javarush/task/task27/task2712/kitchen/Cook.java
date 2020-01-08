@@ -18,7 +18,7 @@ public class Cook extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         StatisticManager.getInstance().register(new CookedOrderEventDataRow(((Tablet) o).toString(), name,
-                ((Order) arg).getTotalCookingTime(), ((Order) arg).getDishes()));
+                ((Order) arg).getTotalCookingTime() * 60, ((Order) arg).getDishes()));
 
         ConsoleHelper.writeMessage("Start cooking - " + arg.toString() + ", cooking time " + ((Order) arg).getTotalCookingTime() + "min");
         setChanged();
