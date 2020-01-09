@@ -7,7 +7,6 @@ import com.javarush.task.task27.task2712.statistic.StatisticManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Restaurant {
