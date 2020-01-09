@@ -5,17 +5,39 @@ import com.javarush.task.task27.task2712.statistic.StatisticManager;
 import com.javarush.task.task27.task2712.statistic.event.CookedOrderEventDataRow;
 
 import java.util.Observable;
+import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class Cook extends Observable {
+public class Cook extends Observable implements Runnable {
+    StatisticManager statisticManager = StatisticManager.getInstance();
     private String name;
     private boolean busy = false;
+    private LinkedBlockingQueue<Order> queue = new LinkedBlockingQueue<>();
 
     public Cook(String name) {
         this.name = name;
     }
 
+    @Override
+    public void run() {
+        Set<Cook> cooks = statisticManager.getInstance().getCooks();
+        while (true) {
+            if (queue.peek() != null && !isBusy()) {
+                startCookingOrder(queue.poll());
+            }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+
     public boolean isBusy() {
         return busy;
+    }
+
+    public void setQueue(LinkedBlockingQueue<Order> queue) {
+        this.queue = queue;
     }
 
     public void startCookingOrder(Order order) {
