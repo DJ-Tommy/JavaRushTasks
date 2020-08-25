@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Model {
     private static final int FIELD_WIDTH = 4;
+    int score = 0;
+    int maxTile = 0;
     private Tile[][] gameTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
 
     public Model() {
@@ -15,19 +17,61 @@ public class Model {
         for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
             gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] = new Tile();
         }
+//        print();
+//        addTile();
+//        addTile();
+//        addTile();
+//        addTile();
         addTile();
         addTile();
+//        print();
+//        compressTiles(gameTiles[0]);
+//        compressTiles(gameTiles[1]);
+//        compressTiles(gameTiles[2]);
+//        compressTiles(gameTiles[3]);
+//        print();
     }
 
     private void print() {
         for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
-            if (i % FIELD_WIDTH == 0) {
+            if (i != 0 && i % FIELD_WIDTH == 0) {
                 System.out.println();
             }
-            System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + " ");
+            System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + "  ");
+
         }
         System.out.println();
         System.out.println();
+    }
+
+    private void compressTiles(Tile[] tiles) {
+        for (int i = tiles.length - 2; i >= 0; i--) {
+            for (int j = i; j < tiles.length - 1; j++) {
+                if (tiles[j].value == 0 && tiles[j + 1].value != 0) {
+                    Tile tile = tiles[j];
+                    tiles[j] = tiles[j + 1];
+                    tiles[j + 1] = tile;
+                }
+            }
+        }
+    }
+
+    private void mergeTiles(Tile[] tiles) {
+        for (int i = 0; i < tiles.length - 1; i++) {
+            if (tiles[i].value == 0) {
+                return;
+            }
+            if (tiles[i].value == tiles[i + 1].value) {
+                tiles[i].value *= 2;
+                score += tiles[i].value;
+                if (maxTile < tiles[i].value) {
+                    maxTile = tiles[i].value;
+                }
+                tiles[i + 1].value = 0;
+                i++;
+            }
+        }
+        compressTiles(tiles);
     }
 
     private List<Tile> getEmptyTiles() {
@@ -45,6 +89,7 @@ public class Model {
         if (tiles.size() < 1) {
             return;
         }
-        tiles.get((int) (getEmptyTiles().size() * Math.random())).value = Math.random() < 0.9 ? 2 : 4;
+        int random = Math.random() < 0.9 ? 2 : 4;
+        tiles.get((int) (getEmptyTiles().size() * Math.random())).value = random;
     }
 }
