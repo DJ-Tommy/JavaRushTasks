@@ -44,24 +44,41 @@ public class Model {
         System.out.println();
     }
 
-    private void compressTiles(Tile[] tiles) {
+    public void left() {
+        boolean changing = false;
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            if (compressTiles(gameTiles[i]) | mergeTiles(gameTiles[i])) {
+                changing = true;
+            }
+        }
+        if (changing) {
+            addTile();
+        }
+    }
+
+    private boolean compressTiles(Tile[] tiles) {
+        boolean changing = false;
         for (int i = tiles.length - 2; i >= 0; i--) {
             for (int j = i; j < tiles.length - 1; j++) {
                 if (tiles[j].value == 0 && tiles[j + 1].value != 0) {
+                    changing = true;
                     Tile tile = tiles[j];
                     tiles[j] = tiles[j + 1];
                     tiles[j + 1] = tile;
                 }
             }
         }
+        return changing;
     }
 
-    private void mergeTiles(Tile[] tiles) {
+    private boolean mergeTiles(Tile[] tiles) {
+        boolean changing = false;
         for (int i = 0; i < tiles.length - 1; i++) {
             if (tiles[i].value == 0) {
-                return;
+                return changing;
             }
             if (tiles[i].value == tiles[i + 1].value) {
+                changing = true;
                 tiles[i].value *= 2;
                 score += tiles[i].value;
                 if (maxTile < tiles[i].value) {
@@ -72,6 +89,7 @@ public class Model {
             }
         }
         compressTiles(tiles);
+        return changing;
     }
 
     private List<Tile> getEmptyTiles() {
