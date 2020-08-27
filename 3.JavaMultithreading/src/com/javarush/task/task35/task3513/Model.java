@@ -20,6 +20,27 @@ public class Model {
 //        test();
     }
 
+    public Tile[][] getGameTiles() {
+        return gameTiles;
+    }
+
+    public boolean canMove() {
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                if (gameTiles[i][j].value == 0) {
+                    return true;
+                }
+                if (i < FIELD_WIDTH - 2 && gameTiles[i][j].value == gameTiles[i + 1][j].value) {
+                    return true;
+                }
+                if (j < FIELD_WIDTH - 2 && gameTiles[i][j].value == gameTiles[i][j + 1].value) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void test() {
         for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH / 2; i++) {
             addTile();
@@ -84,7 +105,7 @@ public class Model {
         rotate();
     }
 
-    public void left() {
+    public boolean left() {
         boolean changing = false;
         for (int i = 0; i < FIELD_WIDTH; i++) {
             if (compressTiles(gameTiles[i]) | mergeTiles(gameTiles[i])) {
@@ -94,6 +115,7 @@ public class Model {
         if (changing) {
             addTile();
         }
+        return changing;
     }
 
     private boolean compressTiles(Tile[] tiles) {
