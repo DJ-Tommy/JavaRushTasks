@@ -13,11 +13,12 @@ public class Model {
         resetGameTiles();
     }
 
-    void resetGameTiles() {
+    public void resetGameTiles() {
         for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
             gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] = new Tile();
         }
-//        test();
+        addTile();
+        addTile();
     }
 
     public Tile[][] getGameTiles() {
@@ -41,21 +42,6 @@ public class Model {
         return false;
     }
 
-    private void test() {
-        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH / 2; i++) {
-            addTile();
-        }
-        print();
-        left();
-        print();
-        right();
-        print();
-        up();
-        print();
-        down();
-        print();
-    }
-
     public void up() {
         rotate();
         rotate();
@@ -70,17 +56,6 @@ public class Model {
         rotate();
         rotate();
         rotate();
-    }
-
-    private void print() {
-        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
-            if (i != 0 && i % FIELD_WIDTH == 0) {
-                System.out.println();
-            }
-            System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + "  ");
-        }
-        System.out.println();
-        System.out.println();
     }
 
     private void rotate() {
@@ -169,7 +144,6 @@ public class Model {
             return;
         }
         int random = Math.random() < 0.9 ? 2 : 4;
-//        int random = (int) (Math.random() * 10);
         tiles.get((int) (getEmptyTiles().size() * Math.random())).value = random;
     }
 }

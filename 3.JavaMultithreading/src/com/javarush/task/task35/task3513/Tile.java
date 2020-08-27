@@ -60,6 +60,8 @@ public class Tile {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return "Tile{" +
+                "value=" + value +
+                '}';
     }
 }

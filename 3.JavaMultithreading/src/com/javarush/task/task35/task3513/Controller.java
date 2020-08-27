@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 public class Controller extends KeyAdapter {
     private static int WINNING_TILE = 2048;
-    private Model model = new Model();
+    private Model model;
     private View view;
 
     public Controller(Model model) {
@@ -13,9 +13,12 @@ public class Controller extends KeyAdapter {
         this.view = new View(this);
     }
 
+    public View getView() {
+        return view;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
-
         if (e.getKeyCode() == KeyEvent.VK_LEFT && !view.isGameLost && !view.isGameWon) {
             model.left();
         }
@@ -41,10 +44,11 @@ public class Controller extends KeyAdapter {
     }
 
     public void resetGame() {
+        model.score = 0;
         view.isGameLost = false;
         view.isGameWon = false;
         model.resetGameTiles();
-        model.score = 0;
+
     }
 
     public Tile[][] getGameTiles() {
