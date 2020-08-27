@@ -17,19 +17,38 @@ public class Model {
         for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
             gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] = new Tile();
         }
-//        print();
-//        addTile();
-//        addTile();
-//        addTile();
-//        addTile();
-        addTile();
-        addTile();
-//        print();
-//        compressTiles(gameTiles[0]);
-//        compressTiles(gameTiles[1]);
-//        compressTiles(gameTiles[2]);
-//        compressTiles(gameTiles[3]);
-//        print();
+//        test();
+    }
+
+    private void test() {
+        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH / 2; i++) {
+            addTile();
+        }
+        print();
+        left();
+        print();
+        right();
+        print();
+        up();
+        print();
+        down();
+        print();
+    }
+
+    public void up() {
+        rotate();
+        rotate();
+        rotate();
+        left();
+        rotate();
+    }
+
+    public void down() {
+        rotate();
+        left();
+        rotate();
+        rotate();
+        rotate();
     }
 
     private void print() {
@@ -38,10 +57,31 @@ public class Model {
                 System.out.println();
             }
             System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + "  ");
-
         }
         System.out.println();
         System.out.println();
+    }
+
+    private void rotate() {
+        Tile[][] tempTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                tempTiles[i][j] = gameTiles[i][j];
+            }
+        }
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                gameTiles[i][j] = tempTiles[FIELD_WIDTH - j - 1][i];
+            }
+        }
+    }
+
+    public void right() {
+        rotate();
+        rotate();
+        left();
+        rotate();
+        rotate();
     }
 
     public void left() {
@@ -108,6 +148,7 @@ public class Model {
             return;
         }
         int random = Math.random() < 0.9 ? 2 : 4;
+//        int random = (int) (Math.random() * 10);
         tiles.get((int) (getEmptyTiles().size() * Math.random())).value = random;
     }
 }
