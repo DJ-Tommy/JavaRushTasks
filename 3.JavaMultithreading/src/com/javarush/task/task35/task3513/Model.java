@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Model {
     private static final int FIELD_WIDTH = 4;
-    int score = 0;
-    int maxTile = 0;
+    public int score = 0;
+    public int maxTile = 0;
     private Tile[][] gameTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
 
     public Model() {
@@ -105,7 +105,7 @@ public class Model {
         rotate();
     }
 
-    public boolean left() {
+    public void left() {
         boolean changing = false;
         for (int i = 0; i < FIELD_WIDTH; i++) {
             if (compressTiles(gameTiles[i]) | mergeTiles(gameTiles[i])) {
@@ -115,7 +115,6 @@ public class Model {
         if (changing) {
             addTile();
         }
-        return changing;
     }
 
     private boolean compressTiles(Tile[] tiles) {
