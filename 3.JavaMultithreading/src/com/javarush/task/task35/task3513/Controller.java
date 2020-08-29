@@ -19,6 +19,7 @@ public class Controller extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (e.getKeyCode() == KeyEvent.VK_LEFT && !view.isGameLost && !view.isGameWon) {
             model.left();
         }
@@ -44,11 +45,10 @@ public class Controller extends KeyAdapter {
     }
 
     public void resetGame() {
-        model.score = 0;
         view.isGameLost = false;
         view.isGameWon = false;
         model.resetGameTiles();
-
+        model.score = 0;
     }
 
     public Tile[][] getGameTiles() {

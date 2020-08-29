@@ -2,23 +2,48 @@ package com.javarush.task.task35.task3513;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Model {
     private static final int FIELD_WIDTH = 4;
     public int score = 0;
     public int maxTile = 0;
     private Tile[][] gameTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+    private Stack<Tile[][]> previousStates = new Stack<>();
+    private Stack<Integer> previousScores = new Stack<>();
+    private boolean isSaveNeeded = true;
 
     public Model() {
         resetGameTiles();
     }
 
-    public void resetGameTiles() {
+    private void saveState(Tile[][] tiles) {
+        Tile[][] tempTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                tempTiles[i][j] = new Tile(tiles[i][j].value);
+            }
+        }
+        previousStates.push(tempTiles);
+        previousScores.push(score);
+        isSaveNeeded = false;
+    }
+
+    public void rollback() {
+        if (previousStates.isEmpty() || previousScores.isEmpty()) {
+            return;
+        }
+        score = previousScores.pop();
+        gameTiles = previousStates.pop();
+
+
+    }
+
+    void resetGameTiles() {
         for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
             gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] = new Tile();
         }
-        addTile();
-        addTile();
+//        test();
     }
 
     public Tile[][] getGameTiles() {
@@ -42,6 +67,21 @@ public class Model {
         return false;
     }
 
+    private void test() {
+        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH / 2; i++) {
+            addTile();
+        }
+        print();
+        left();
+        print();
+        right();
+        print();
+        up();
+        print();
+        down();
+        print();
+    }
+
     public void up() {
         rotate();
         rotate();
@@ -56,6 +96,17 @@ public class Model {
         rotate();
         rotate();
         rotate();
+    }
+
+    private void print() {
+        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
+            if (i != 0 && i % FIELD_WIDTH == 0) {
+                System.out.println();
+            }
+            System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + "  ");
+        }
+        System.out.println();
+        System.out.println();
     }
 
     private void rotate() {
@@ -144,6 +195,7 @@ public class Model {
             return;
         }
         int random = Math.random() < 0.9 ? 2 : 4;
+//        int random = (int) (Math.random() * 10);
         tiles.get((int) (getEmptyTiles().size() * Math.random())).value = random;
     }
 }
