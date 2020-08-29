@@ -82,6 +82,24 @@ public class Model {
         print();
     }
 
+    public void randomMove() {
+        int random = (int) (Math.random() * 3);
+        switch (random) {
+            case 0:
+                left();
+                break;
+            case 1:
+                right();
+                break;
+            case 2:
+                up();
+                break;
+            case 3:
+                down();
+                break;
+        }
+    }
+
     public void up() {
         saveState(gameTiles);
         rotate();
@@ -98,31 +116,6 @@ public class Model {
         rotate();
         rotate();
         rotate();
-    }
-
-    private void print() {
-        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
-            if (i != 0 && i % FIELD_WIDTH == 0) {
-                System.out.println();
-            }
-            System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + "  ");
-        }
-        System.out.println();
-        System.out.println();
-    }
-
-    private void rotate() {
-        Tile[][] tempTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
-        for (int i = 0; i < FIELD_WIDTH; i++) {
-            for (int j = 0; j < FIELD_WIDTH; j++) {
-                tempTiles[i][j] = gameTiles[i][j];
-            }
-        }
-        for (int i = 0; i < FIELD_WIDTH; i++) {
-            for (int j = 0; j < FIELD_WIDTH; j++) {
-                gameTiles[i][j] = tempTiles[FIELD_WIDTH - j - 1][i];
-            }
-        }
     }
 
     public void right() {
@@ -149,6 +142,33 @@ public class Model {
         }
         isSaveNeeded = true;
     }
+
+
+    private void print() {
+        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
+            if (i != 0 && i % FIELD_WIDTH == 0) {
+                System.out.println();
+            }
+            System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + "  ");
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    private void rotate() {
+        Tile[][] tempTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                tempTiles[i][j] = gameTiles[i][j];
+            }
+        }
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                gameTiles[i][j] = tempTiles[FIELD_WIDTH - j - 1][i];
+            }
+        }
+    }
+
 
     private boolean compressTiles(Tile[] tiles) {
         boolean changing = false;
