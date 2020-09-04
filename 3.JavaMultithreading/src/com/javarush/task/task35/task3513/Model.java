@@ -1,6 +1,7 @@
 package com.javarush.task.task35.task3513;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -35,15 +36,12 @@ public class Model {
         }
         score = previousScores.pop();
         gameTiles = previousStates.pop();
-
-
     }
 
     void resetGameTiles() {
         for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
             gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] = new Tile();
         }
-//        test();
     }
 
     public Tile[][] getGameTiles() {
@@ -65,21 +63,6 @@ public class Model {
             }
         }
         return false;
-    }
-
-    private void test() {
-        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH / 2; i++) {
-            addTile();
-        }
-        print();
-        left();
-        print();
-        right();
-        print();
-        up();
-        print();
-        down();
-        print();
     }
 
     public void randomMove() {
@@ -143,18 +126,6 @@ public class Model {
         isSaveNeeded = true;
     }
 
-
-    private void print() {
-        for (int i = 0; i < FIELD_WIDTH * FIELD_WIDTH; i++) {
-            if (i != 0 && i % FIELD_WIDTH == 0) {
-                System.out.println();
-            }
-            System.out.print(gameTiles[i / FIELD_WIDTH][i % FIELD_WIDTH] + "  ");
-        }
-        System.out.println();
-        System.out.println();
-    }
-
     private void rotate() {
         Tile[][] tempTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
         for (int i = 0; i < FIELD_WIDTH; i++) {
@@ -168,7 +139,6 @@ public class Model {
             }
         }
     }
-
 
     private boolean compressTiles(Tile[] tiles) {
         boolean changing = false;
@@ -222,7 +192,31 @@ public class Model {
             return;
         }
         int random = Math.random() < 0.9 ? 2 : 4;
-//        int random = (int) (Math.random() * 10);
         tiles.get((int) (getEmptyTiles().size() * Math.random())).value = random;
+    }
+
+    boolean hasBoardChanged() {
+        Tile[][] tempTiles = previousStates.peek();
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                if (gameTiles[i][j].value != tempTiles[i][j].value) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    MoveEfficiency getMoveEfficiency(Move move) {
+        MoveEfficiency moveEfficiency;
+        move.move();
+        if (!hasBoardChanged()) {
+            moveEfficiency = new MoveEfficiency(-1, 0, move);
+        } else {
+            moveEfficiency = new MoveEfficiency(getEmptyTiles().size(), score, move);
+        }
+        rollback();
+
+        return moveEfficiency;
     }
 }
