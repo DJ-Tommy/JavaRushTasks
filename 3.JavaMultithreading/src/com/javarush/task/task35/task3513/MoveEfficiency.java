@@ -20,6 +20,10 @@ public class MoveEfficiency implements Move, Comparable<MoveEfficiency> {
 
     }
 
+    public int getScore() {
+        return score;
+    }
+
     @Override
     public int compareTo(MoveEfficiency o) {
         if (this.numberOfEmptyTiles != o.numberOfEmptyTiles) {
