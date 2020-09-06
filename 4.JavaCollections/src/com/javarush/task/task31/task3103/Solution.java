@@ -11,16 +11,20 @@ import java.util.List;
 */
 public class Solution {
     public static byte[] readBytes(String fileName) throws IOException {
-        return null;
+
+        return Files.readAllBytes(Paths.get(fileName));
     }
 
     public static List<String> readLines(String fileName) throws IOException {
-        return null;
+        return Files.readAllLines(Paths.get(fileName));
     }
 
     public static void writeBytes(String fileName, byte[] bytes) throws IOException {
+        Files.write(Paths.get(fileName), bytes);
     }
 
     public static void copy(String resourceFileName, String destinationFileName) throws IOException {
+        byte[] content = readBytes(resourceFileName);
+        writeBytes(destinationFileName, content);
     }
 }
